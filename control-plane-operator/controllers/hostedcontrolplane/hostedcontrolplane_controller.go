@@ -725,12 +725,13 @@ func (r *HostedControlPlaneReconciler) update(ctx context.Context, hostedControl
 		errs = append(errs, err)
 	}
 
-	/*
+	// Disable cluster-autoscaler for IBMCloud infra
+	if hostedControlPlane.Spec.Platform.Type != hyperv1.IBMCloudPlatform {
 		r.Log.Info("Reconciling autoscaler")
 		if err := r.reconcileAutoscaler(ctx, hostedControlPlane, releaseImage.ComponentImages(), createOrUpdate); err != nil {
 			errs = append(errs, fmt.Errorf("failed to reconcile autoscaler: %w", err))
 		}
-	*/
+	}
 
 	r.Log.Info("Reconciling machine approver")
 	if err := r.reconcileMachineApprover(ctx, hostedControlPlane, releaseImage.ComponentImages(), createOrUpdate); err != nil {

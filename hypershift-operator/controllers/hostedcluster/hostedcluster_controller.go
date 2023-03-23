@@ -1419,8 +1419,9 @@ func (r *HostedClusterReconciler) reconcile(ctx context.Context, req ctrl.Reques
 		}
 	}
 
-	// Reconcile the CAPI manager components
-	/*
+	// Disable cluster-api for IBMCloud infra
+	if hcp.Spec.Platform.Type != hyperv1.IBMCloudPlatform {
+		// Reconcile the CAPI manager components
 		err = r.reconcileCAPIManager(ctx, createOrUpdate, hcluster, hcp, pullSecretBytes)
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("failed to reconcile capi manager: %w", err)
@@ -1430,7 +1431,7 @@ func (r *HostedClusterReconciler) reconcile(ctx context.Context, req ctrl.Reques
 		if err = r.reconcileCAPIProvider(ctx, createOrUpdate, hcluster, hcp, capiProviderDeploymentSpec, p); err != nil {
 			return ctrl.Result{}, fmt.Errorf("failed to reconcile capi provider: %w", err)
 		}
-	*/
+	}
 
 	// Get release image version, if needed
 	var releaseImageVersion semver.Version
