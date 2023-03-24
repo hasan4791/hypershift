@@ -133,6 +133,9 @@ const (
 	// SilenceClusterAlertsLabel  is a label that can be used by consumers to indicate
 	// alerts from a cluster can be silenced or ignored
 	SilenceClusterAlertsLabel = "hypershift.openshift.io/silence-cluster-alerts"
+
+	//Disable deployments related to machine management that includes cluster-api, cluster-autoscaler, machine-approver.
+	DisableMachineManagement = "hypershift.openshift.io/disable-machine-management"
 )
 
 // HostedClusterSpec is the desired behavior of a HostedCluster.

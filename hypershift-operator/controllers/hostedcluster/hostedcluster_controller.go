@@ -1419,8 +1419,8 @@ func (r *HostedClusterReconciler) reconcile(ctx context.Context, req ctrl.Reques
 		}
 	}
 
-	// Disable cluster-api for IBMCloud infra
-	if hcp.Spec.Platform.Type != hyperv1.IBMCloudPlatform {
+	// Disable machine management components if enabled
+	if _, exists := hcluster.Annotations[hyperv1.DisableMachineManagement]; !exists {
 		// Reconcile the CAPI manager components
 		err = r.reconcileCAPIManager(ctx, createOrUpdate, hcluster, hcp, pullSecretBytes)
 		if err != nil {
@@ -1554,6 +1554,7 @@ func reconcileHostedControlPlane(hcp *hyperv1.HostedControlPlane, hcluster *hype
 		hyperv1.DisableProfilingAnnotation,
 		hyperv1.PrivateIngressControllerAnnotation,
 		hyperv1.CleanupCloudResourcesAnnotation,
+		hyperv1.DisableMachineManagement,
 	}
 	for _, key := range mirroredAnnotations {
 		val, hasVal := hcluster.Annotations[key]
